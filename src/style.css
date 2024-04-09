@@ -1,0 +1,48 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+body {
+    margin: 1rem;
+    /* height: 50rem; */
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    font-family: "Kode Mono", monospace;
+}
+
+h2 {
+    margin: 0;
+    font-family: "Kode Mono", monospace;
+    font-style: italic;
+    font-size: medium;
+}
+
+body {
+    margin: 1rem;
+    padding: 0;
+    background-color: aliceblue;
+}
+
+.square {
+    /* padding: 0.5rem; */
+    background: transparent;
+    border: 1px solid blue;
+    float: left;
+    font-size: 3rem;
+    font-weight: bold;
+    color: black;
+    text-align: center;
+    width: 4rem;
+    height: 4rem;
+}
+
+.board-row {
+    clear: both;
+    /* content: ''; */
+    display: table;
+}
