@@ -24,7 +24,7 @@ function BoardRow({squares, cells, onSquareClick}){
     );
 }
 
-export default function Board(){
+function Board(){
     const [currentMove, setCurrentMove] = useState(0);
     // const [squares, setSquares] = useState([Array(42).fill(null)])
     const [squares, setSquares] = useState(Array(42).fill(null))
@@ -58,9 +58,6 @@ export default function Board(){
         return c + 35
     }
 
-
-
-
     return (
         <>
             <BoardRow squares={squares} cells={[ 0, 1, 2, 3, 4, 5, 6]} onSquareClick={handleClick}/>
@@ -70,5 +67,16 @@ export default function Board(){
             <BoardRow squares={squares} cells={[28,29,30,31,32,33,34]} onSquareClick={handleClick}/>
             <BoardRow squares={squares} cells={[35,36,37,38,39,40,41]} onSquareClick={handleClick}/>
         </>
+    );
+}
+
+export default function Game(){
+
+    return(
+        <div className='game'>
+            <div className='board'>
+                <Board />
+            </div>
+        </div>
     );
 }
