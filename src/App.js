@@ -13,13 +13,13 @@ function BoardRow({squares, cells, onSquareClick}){
     
     return (
         <div className='board-row'>
-            <Square value={squares[0]} onSquareClick={() => onSquareClick(cells[0])} />
-            <Square value={squares[1]} onSquareClick={() => onSquareClick(cells[1])} />
-            <Square value={squares[2]} onSquareClick={() => onSquareClick(cells[2])} />
-            <Square value={squares[3]} onSquareClick={() => onSquareClick(cells[3])} />
-            <Square value={squares[4]} onSquareClick={() => onSquareClick(cells[4])} />
-            <Square value={squares[5]} onSquareClick={() => onSquareClick(cells[5])} />
-            <Square value={squares[6]} onSquareClick={() => onSquareClick(cells[6])} />
+            <Square value={squares[cells[0]]} onSquareClick={() => onSquareClick(cells[0])} />
+            <Square value={squares[cells[1]]} onSquareClick={() => onSquareClick(cells[1])} />
+            <Square value={squares[cells[2]]} onSquareClick={() => onSquareClick(cells[2])} />
+            <Square value={squares[cells[3]]} onSquareClick={() => onSquareClick(cells[3])} />
+            <Square value={squares[cells[4]]} onSquareClick={() => onSquareClick(cells[4])} />
+            <Square value={squares[cells[5]]} onSquareClick={() => onSquareClick(cells[5])} />
+            <Square value={squares[cells[6]]} onSquareClick={() => onSquareClick(cells[6])} />
         </div>
     );
 }
