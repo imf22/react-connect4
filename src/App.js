@@ -28,17 +28,37 @@ export default function Board(){
     const [currentMove, setCurrentMove] = useState(0);
     // const [squares, setSquares] = useState([Array(42).fill(null)])
     const [squares, setSquares] = useState(Array(42).fill(null))
+    const isRNext = currentMove % 2 === 0; 
     
 
     function handleClick(i){
         console.log(`Board: ${i} clicked`);
-        
+        let columnNum = i % 7;
+
+        if (squares[columnNum]) return;
+
         const nextSquares = squares.slice();
-        console.log(squares); 
-        console.log(nextSquares); 
-        nextSquares[i] = "R"; 
+        nextSquares[getNextSquareInColumn(columnNum)] = isRNext? "R" : "B"; 
         setSquares(nextSquares) ;
+        setCurrentMove(currentMove + 1);
     }
+
+
+
+    function getNextSquareInColumn(c)
+    {
+        for (let i=c ; i<35; i){
+            console.log(`On ${i} checking if ${i+7} is empty`);
+            if (squares[i+7]){
+                console.log(`   ${i+7} exist!`);
+                return i;  
+            }
+            i += 7;
+        }
+        return c + 35
+    }
+
+
 
 
     return (
