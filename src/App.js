@@ -40,23 +40,20 @@ function BoardRow({squares, cells, onSquareClick}){
     );
 }
 
-function Board({isRNext, squares, onPlay}){
+function Board({winner, isRNext, squares, onPlay}){
     
     function handleClick(i){
         // console.log(`Board: ${i} clicked`);
         // console.log(squares);
         let columnNum = i % 7;
 
-        if (squares[columnNum]) return;
+        if (winner || squares[columnNum]) return;
 
         let nextOpenSquare = getNextSquareInColumn(columnNum);
-
         const nextSquares = squares.slice();
         nextSquares[nextOpenSquare] = isRNext? "R" : "B"; 
 
         onPlay(nextSquares, [columnNum, nextOpenSquare]);
-
-        // calculateWinner(columnNum, nextOpenSquare, squares);
     }
 
 
@@ -95,7 +92,7 @@ export default function Game(){
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
-        calculateWinner(squarePos[0], squarePos[1], nextSquares);
+        setWinner(calculateWinner(squarePos[0], squarePos[1], nextSquares));
     }
 
     // Update game status msg
@@ -111,7 +108,7 @@ export default function Game(){
     return(
         <div className='game'>
             <div className='board'>
-                <Board isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
+                <Board winner={winner} isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
             <p className='status'>{statusMsg}</p>
 
@@ -185,15 +182,13 @@ function calculateWinner(c, linearIndex, squares){
             if (useComments){console.log(`           calculateWinner:   Checking ${[c+t0[0],r+t0[1]]}, ${[c+t1[0],r+t1[1]]}, ${[c+t2[0],r+t2[1]]}, ${[c+t3[0],r+t3[1]]}`)};
             if (useComments){console.log(`               calculateWinner: ${[p1,p2,p3,p4]}`)};
 
-
-
-
+            // Check if first square contains a token then if rest of tokens match
+            if (p1 && p1 === p2 && p1 === p3 && p1 === p4) {
+                return p1 === 'R'? 'Red' : 'Blue';    // There is a winner
+            }
         };
     }
-    
-    
-    
-    return;
+    return null; // No winner
 }
 const [bWidthd, bHieght] = [7,6]; 
 
