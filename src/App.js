@@ -54,9 +54,9 @@ function Board({isRNext, squares, onPlay}){
         const nextSquares = squares.slice();
         nextSquares[nextOpenSquare] = isRNext? "R" : "B"; 
 
-        onPlay(nextSquares);
+        onPlay(nextSquares, [columnNum, nextOpenSquare]);
 
-        calculateWinner(columnNum, nextOpenSquare, squares);
+        // calculateWinner(columnNum, nextOpenSquare, squares);
     }
 
 
@@ -84,17 +84,28 @@ function Board({isRNext, squares, onPlay}){
 }
 
 export default function Game(){
+    const [winner, setWinner] = useState(null);
     const [history, setHistory] = useState([Array(42).fill(null)]);      // Contains the list of every board state 
     const [currentMove, setCurrentMove] = useState(0);
     const isRNext = currentMove % 2 === 0; 
     const currentSquares = history[currentMove];
 
 
-    function handlePlay(nextSquares){
+    function handlePlay(nextSquares, squarePos){
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
-        
+        calculateWinner(squarePos[0], squarePos[1], nextSquares);
+    }
+
+    // Update game status msg
+    let statusMsg;
+    if (winner){
+        statusMsg = `${winner} wins!`;
+    } else if (calculateIfFull(currentSquares)){
+        statusMsg = 'Draw!'
+    } else {
+        statusMsg = isRNext ? "Red's Turn" : "Blue's Turn";
     }
 
     return(
@@ -102,6 +113,7 @@ export default function Game(){
             <div className='board'>
                 <Board isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
+            <p className='status'>{statusMsg}</p>
 
         </div>
     );
@@ -123,10 +135,11 @@ function calculateWinner(c, linearIndex, squares){
     // linearIndex  : used to calculate which row cell is in from 1D board array;
     //  useComments : enables comments for function
     const r = (linearIndex - c) % 6;
-    const useComments = false;
+    const useComments = true;
     
-    if (useComments){console.log("calculateWinner:")}
-    if (useComments){console.log(`   Square ${linearIndex} is at ${[c,r]}. Square contains ${board2D[r][c]}`)}
+    // Debug Comments Displays linear board array index of square and coords of last changed square 
+    if (useComments){console.log("calculateWinner:")};
+    if (useComments){console.log(`   Square ${linearIndex} is at ${[c,r]}.`)};
     
     const lines = [
         // // Vertial Win States
@@ -168,7 +181,7 @@ function calculateWinner(c, linearIndex, squares){
             p3 = squares[board2D[r+t2[1]][c+t2[0]]];
             p4 = squares[board2D[r+t3[1]][c+t3[0]]];
             
-
+            // Debug Comments Displays coords of each square in current line and contents of squares in that line
             if (useComments){console.log(`           calculateWinner:   Checking ${[c+t0[0],r+t0[1]]}, ${[c+t1[0],r+t1[1]]}, ${[c+t2[0],r+t2[1]]}, ${[c+t3[0],r+t3[1]]}`)};
             if (useComments){console.log(`               calculateWinner: ${[p1,p2,p3,p4]}`)};
 
@@ -185,30 +198,35 @@ function calculateWinner(c, linearIndex, squares){
 const [bWidthd, bHieght] = [7,6]; 
 
 function validateCoordniates(i,c,r, transforms){
-    const comments = true;
-    if (comments) {console.log(`       coordinateValidator: Checking line ${i} ${transforms} ...`)};
+    const comments = false;
+    if (comments) {console.log(`       coordinateValidator: Checking line ${i}: ${transforms} ...`)};
     for (var j = 0, l = transforms.length; j < l; j++){
         var cT = transforms[j][0] + c; // c transformed
         var rT = transforms[j][1] + r; // r transformed
 
-
         // Check Veritical bounds
-        // if (cT < 0 || cT >= bHieght) return false;
         if (cT < 0 || cT >= bWidthd) {
             if (comments) {console.log(`           coordinateValidator: ${[cT, rT]} fails: column out of bounds`)};
             return false;
         }
         
         // Check horizontal bounds
-        // if (rT < 0 || rT >= bWidthd) return false;
         if (rT < 0 || rT >= bHieght){
             if (comments) {console.log(`           coordinateValidator: ${[cT, rT]} fails: row out of bounds`)};
             return false;
         } 
 
-
         if (comments) {console.log(`           coordinateValidator: ${[cT, rT]} is pass`)};
     }
     if (comments) {console.log(`         coordinateValidator: ${transforms} is totally valid`)};
+    return true;
+}
+
+function calculateIfFull(squares){
+    for ( var i = 0, l = squares.length; i < l; i++ )    {
+        if ( 'undefined' == typeof squares[i] || null === squares[i] ){
+            return false
+        }
+    }
     return true;
 }
