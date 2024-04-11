@@ -1,4 +1,4 @@
-import React , {useContext, useState} from 'react';
+import React , {useState} from 'react';
 
 function RedToken(){
     return (
@@ -102,6 +102,7 @@ export default function Game(){
             <div className='board'>
                 <Board isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
+
         </div>
     );
 }
@@ -122,7 +123,7 @@ function calculateWinner(c, linearIndex, squares){
     // linearIndex  : used to calculate which row cell is in from 1D board array;
     //  useComments : enables comments for function
     const r = (linearIndex - c) % 6;
-    const useComments = true;
+    const useComments = false;
     
     if (useComments){console.log("calculateWinner:")}
     if (useComments){console.log(`   Square ${linearIndex} is at ${[c,r]}. Square contains ${board2D[r][c]}`)}
@@ -158,14 +159,14 @@ function calculateWinner(c, linearIndex, squares){
             var [t0, t1, t2, t3]= lines[i];     // Transform Coordinates
             var p1, p2, p3, p4;                 // Value at square
             
-            p1 = board2D[r+t0[1]][c+t0[0]];
-            p2 = board2D[r+t1[1]][c+t1[0]];
-            p3 = board2D[r+t2[1]][c+t2[0]];
-            p4 = board2D[r+t3[1]][c+t3[0]];
-            // p1 = squares[board2D[r+t0[1]][c+t0[0]]];
-            // p2 = squares[board2D[r+t1[1]][c+t1[0]]];
-            // p3 = squares[board2D[r+t2[1]][c+t2[0]]];
-            // p4 = squares[board2D[r+t3[1]][c+t3[0]]];
+            // p1 = board2D[r+t0[1]][c+t0[0]];
+            // p2 = board2D[r+t1[1]][c+t1[0]];
+            // p3 = board2D[r+t2[1]][c+t2[0]];
+            // p4 = board2D[r+t3[1]][c+t3[0]];
+            p1 = squares[board2D[r+t0[1]][c+t0[0]]];
+            p2 = squares[board2D[r+t1[1]][c+t1[0]]];
+            p3 = squares[board2D[r+t2[1]][c+t2[0]]];
+            p4 = squares[board2D[r+t3[1]][c+t3[0]]];
             
 
             if (useComments){console.log(`           calculateWinner:   Checking ${[c+t0[0],r+t0[1]]}, ${[c+t1[0],r+t1[1]]}, ${[c+t2[0],r+t2[1]]}, ${[c+t3[0],r+t3[1]]}`)};
@@ -186,9 +187,9 @@ const [bWidthd, bHieght] = [7,6];
 function validateCoordniates(i,c,r, transforms){
     const comments = true;
     if (comments) {console.log(`       coordinateValidator: Checking line ${i} ${transforms} ...`)};
-    for (var i = 0, l = transforms.length; i < l; i++){
-        var cT = transforms[i][0] + c; // c transformed
-        var rT = transforms[i][1] + r; // r transformed
+    for (var j = 0, l = transforms.length; j < l; j++){
+        var cT = transforms[j][0] + c; // c transformed
+        var rT = transforms[j][1] + r; // r transformed
 
 
         // Check Veritical bounds
