@@ -22,6 +22,11 @@ h2 {
     font-size: medium;
 }
 
+p {
+    margin: 1rem ;
+    font-size: 2rem;
+}
+
 body {
     margin: 1rem;
     padding: 0;
@@ -29,6 +34,7 @@ body {
 }
 .game {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -37,11 +43,12 @@ body {
     /* display: flex;
     flex-direction: column;
     justify-content: center; */
+    margin-top: 3rem;
+    width: 29em;
 
     /* temp styling */
     padding: 5px;
     border: 1px solid yellow;
-    width: 29em;
 }
 
 .board-row {
