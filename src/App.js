@@ -1,15 +1,31 @@
 import React , {useContext, useState} from 'react';
 
+function RedToken(){
+    return (
+        <div className='token-red'>●</div>
+    )
+}
+
+function BlackToken(){
+    return (
+        <div className='token-black'>●</div>
+    )
+}
+
 function Square({value, onSquareClick}){
+    let token;
+    if (value){
+        token = value === "R"? <RedToken/> : <BlackToken/>
+    }
+
     return (
         <button className="square" onClick={onSquareClick}>
-            {value}
+            {token}
         </button>
     );
 }
 
 function BoardRow({squares, cells, onSquareClick}){
-    // const clickContext = SquareClickContext;
     
     return (
         <div className='board-row'>
@@ -31,15 +47,11 @@ function BoardRow({squares, cells, onSquareClick}){
     );
 }
 
-function Board(){
-    const [currentMove, setCurrentMove] = useState(0);
-    // const [squares, setSquares] = useState([Array(42).fill(null)])
-    const [squares, setSquares] = useState(Array(42).fill(null))
-    const isRNext = currentMove % 2 === 0; 
+function Board({isRNext, squares, onPlay}){
     
-
     function handleClick(i){
-        console.log(`Board: ${i} clicked`);
+        // console.log(`Board: ${i} clicked`);
+        // console.log(squares);
         let columnNum = i % 7;
 
         if (squares[columnNum]) return;
@@ -48,8 +60,8 @@ function Board(){
 
         const nextSquares = squares.slice();
         nextSquares[nextOpenSquare] = isRNext? "R" : "B"; 
-        setSquares(nextSquares) ;
-        setCurrentMove(currentMove + 1);
+
+        onPlay(nextSquares);
 
         calculateWinner(columnNum, nextOpenSquare, squares);
     }
@@ -79,11 +91,23 @@ function Board(){
 }
 
 export default function Game(){
+    const [history, setHistory] = useState([Array(42).fill(null)]);      // Contains the list of every board state 
+    const [currentMove, setCurrentMove] = useState(0);
+    const isRNext = currentMove % 2 === 0; 
+    const currentSquares = history[currentMove];
+
+
+    function handlePlay(nextSquares){
+        const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
+        setHistory(nextHistory);
+        setCurrentMove(nextHistory.length - 1);
+        
+    }
 
     return(
         <div className='game'>
             <div className='board'>
-                <Board />
+                <Board isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
         </div>
     );
