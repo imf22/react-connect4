@@ -108,17 +108,17 @@ function calculateWinner(c, linearIndex, squares){
     console.log(`   Square ${linearIndex} is at ${[c,r]}. Square contains ${board2D[r][c]}`)
     
     const lines = [
-        // Vertial Win States
+        // // Vertial Win States
         [[0, 0], [0, 1], [0, 2], [ 0,3]],
         [[0,-1], [0, 0], [0, 1], [ 0,2]],
         [[0, 2], [0,-1], [0, 0], [ 0,1]],
         [[0,-3], [0,-2], [0,-1], [ 0,0]],
-        // Horizontal Win States
+        // // Horizontal Win States
         [[0, 0], [ 1,0], [ 2,0], [ 3,0]],
         [[-1,0], [ 0,0], [ 1,0], [ 2,0]],
         [[ 2,0], [-1,0], [ 0,0], [ 1,0]],
         [[-3,0], [-2,0], [-1,0], [ 0,0]],
-        // Diagonal Decreasing Win States
+        // Diagonal Decreasing Win States   
         [[ 0, 0], [ 1, 1], [ 2, 2], [ 3, 3]],
         [[-1,-1], [ 0, 0], [ 2, 2], [ 3, 3]],
         [[-1,-1], [-2,-2], [ 0, 0], [ 3, 3]],
