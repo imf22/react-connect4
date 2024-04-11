@@ -36,13 +36,6 @@ function BoardRow({squares, cells, onSquareClick}){
             <Square value={squares[cells[4]]} onSquareClick={() => onSquareClick(cells[4])} />
             <Square value={squares[cells[5]]} onSquareClick={() => onSquareClick(cells[5])} />
             <Square value={squares[cells[6]]} onSquareClick={() => onSquareClick(cells[6])} />
-            {/* <Square value={cells[0]} onSquareClick={() => onSquareClick(cells[0])} />
-            <Square value={cells[1]} onSquareClick={() => onSquareClick(cells[1])} />
-            <Square value={cells[2]} onSquareClick={() => onSquareClick(cells[2])} />
-            <Square value={cells[3]} onSquareClick={() => onSquareClick(cells[3])} />
-            <Square value={cells[4]} onSquareClick={() => onSquareClick(cells[4])} />
-            <Square value={cells[5]} onSquareClick={() => onSquareClick(cells[5])} />
-            <Square value={cells[6]} onSquareClick={() => onSquareClick(cells[6])} /> */}
         </div>
     );
 }
