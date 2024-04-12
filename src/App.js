@@ -143,11 +143,18 @@ export default function Game(){
             delay += 500;   // Increase timeout for each state update
         }
 
+        // Reset replaying state variable
         setTimeout(() => {
             setReplaying(false);
         }, delay + 1);
         
+    }
 
+    function restartGame(){
+        setWinner(null);
+        setHistory([Array(42).fill(null)]);      // Contains the list of every board state 
+        setCurrentMove(0);
+        setReplaying(false);
     }
 
     // Update game status msg
@@ -160,6 +167,12 @@ export default function Game(){
         statusMsg = isRNext ? "Red's Turn" : "Blue's Turn";
     }
 
+    // Display Replay button
+    let replayButton;
+    if (winner) {replayButton = <button className='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
+    
+
+
     return(
         <div className='game'>
             <div className='board'>
@@ -170,13 +183,12 @@ export default function Game(){
                 <button className='undo-button' onClick={undoLastTurn}>UNDO</button>
                 <button className='redo-button' onClick={redoLastTurn}>REDO</button>
             </div>
-                <button className='redo-button' onClick={replayGame}>REPLAY GAME</button>
+                <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
+                <>{replayButton}</>
 
         </div>
     );
 }
-
-
 
 
 function calculateWinner(c, linearIndex, squares){
