@@ -10,6 +10,8 @@ const board2D = [                       // 2D Array: Maps linear Board array ind
     [35,36,37,38,39,40,41]
 ];
 
+const replayUpdateInterval = 500;       // Time in between each move replay. In ms 1000ms = 1
+
 
 function RedToken(){
     return (
@@ -99,7 +101,51 @@ export default function Game(){
 
     const [replaying,setReplaying] = useState(false);
 
+    // Update game status msg
+    let statusMsg;
+    if (winner){
+        statusMsg = `${winner} wins!`;
+    } else if (calculateIfFull(currentSquares)){
+        statusMsg = 'Draw!'
+    } else {
+        statusMsg = isRNext ? "Red's Turn" : "Blue's Turn";
+    }
 
+    // Display Replay button
+    let replayButton;
+    if (winner) {replayButton = <button className='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
+
+    // Display Undo button
+    let undoButton;
+    if (currentMove > 0) {undoButton = <button className='undo-button' onClick={undoLastTurn}>UNDO</button>}
+    // Display Redo button
+    let redoButton;
+    if (currentMove < history.length - 1) {redoButton = <button className='redo-button' onClick={redoLastTurn}>REDO</button>}
+    
+
+
+    return(
+        <div className='game'>
+            <div className='board'>
+                <Board winner={winner} isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
+            </div>
+            <p className='status'>{statusMsg}</p>
+            
+            <div className='controls-bar'>
+                <div className='single-move-controls'>
+                    <>{undoButton}</>
+                    <>{redoButton}</>
+                </div>
+                <div className='game-controls'>
+                    <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
+                    <>{replayButton}</>
+                </div>
+            </div>
+
+        </div>
+    );
+
+    // Handles updating the game on a square being clicked
     function handlePlay(nextSquares, squarePos){
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
         setHistory(nextHistory);
@@ -124,6 +170,7 @@ export default function Game(){
         if (nextMove < history.length) setCurrentMove(nextMove);
     }
 
+    // Triggers a replay of each move in the game
     function replayGame(){
         if (replaying) return;
         
@@ -137,7 +184,6 @@ export default function Game(){
             setTimeout(() => {
                 // console.log(`Loop: ${i}`);
                 setCurrentMove(i);
-              
             }, delay);
 
             delay += 500;   // Increase timeout for each state update
@@ -150,44 +196,13 @@ export default function Game(){
         
     }
 
+    // Resets all Game state variables
     function restartGame(){
         setWinner(null);
         setHistory([Array(42).fill(null)]);      // Contains the list of every board state 
         setCurrentMove(0);
         setReplaying(false);
     }
-
-    // Update game status msg
-    let statusMsg;
-    if (winner){
-        statusMsg = `${winner} wins!`;
-    } else if (calculateIfFull(currentSquares)){
-        statusMsg = 'Draw!'
-    } else {
-        statusMsg = isRNext ? "Red's Turn" : "Blue's Turn";
-    }
-
-    // Display Replay button
-    let replayButton;
-    if (winner) {replayButton = <button className='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
-    
-
-
-    return(
-        <div className='game'>
-            <div className='board'>
-                <Board winner={winner} isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
-            </div>
-            <p className='status'>{statusMsg}</p>
-            <div>
-                <button className='undo-button' onClick={undoLastTurn}>UNDO</button>
-                <button className='redo-button' onClick={redoLastTurn}>REDO</button>
-            </div>
-                <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
-                <>{replayButton}</>
-
-        </div>
-    );
 }
 
 
