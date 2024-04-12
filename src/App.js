@@ -97,6 +97,8 @@ export default function Game(){
     const isRNext = currentMove % 2 === 0; 
     const currentSquares = history[currentMove];
 
+    const [replaying,setReplaying] = useState(false);
+
 
     function handlePlay(nextSquares, squarePos){
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares]
@@ -112,6 +114,40 @@ export default function Game(){
         const nextMove = currentMove - 1;
         console.log(`Current Move: ${currentMove}\nNext Move: ${nextMove}`)
         if (nextMove > -1) setCurrentMove(nextMove);
+    }
+
+    function redoLastTurn(){
+        if (winner) return;
+
+        const nextMove = currentMove + 1;
+        console.log(`Current Move: ${currentMove}\nNext Move: ${nextMove}`)
+        if (nextMove < history.length) setCurrentMove(nextMove);
+    }
+
+    function replayGame(){
+        if (replaying) return;
+        
+        // Lock board into replay state to prevent multiple replays from occuring
+        setReplaying(true); 
+
+        let delay = 250
+
+        // Delay update of each board state. EXAMPLE 
+        for (let i = 0; i < currentMove+1; i++) {
+            setTimeout(() => {
+                // console.log(`Loop: ${i}`);
+                setCurrentMove(i);
+              
+            }, delay);
+
+            delay += 500;   // Increase timeout for each state update
+        }
+
+        setTimeout(() => {
+            setReplaying(false);
+        }, delay + 1);
+        
+
     }
 
     // Update game status msg
@@ -132,7 +168,9 @@ export default function Game(){
             <p className='status'>{statusMsg}</p>
             <div>
                 <button className='undo-button' onClick={undoLastTurn}>UNDO</button>
+                <button className='redo-button' onClick={redoLastTurn}>REDO</button>
             </div>
+                <button className='redo-button' onClick={replayGame}>REPLAY GAME</button>
 
         </div>
     );
