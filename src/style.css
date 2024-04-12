@@ -86,3 +86,28 @@ body {
     color: blue;
     -webkit-text-stroke-color: darkblue;
 }
+
+.controls-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width: 29em;
+}
+
+.single-move-controls{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    width: max-content;
+    justify-content: left;
+}
+
+.game-controls {
+    width: max-content;
+    justify-content: right;
+}
+
+
+button, .hidden-button{
+    min-width: 4rem;
+}

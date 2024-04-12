@@ -116,8 +116,10 @@ export default function Game(){
     if (winner) {replayButton = <button className='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
 
     // Display Undo button
-    let undoButton;
-    if (currentMove > 0) {undoButton = <button className='undo-button' onClick={undoLastTurn}>UNDO</button>}
+    let undoButton = <div className='hidden-button'></div>;
+    if (!winner && currentMove > 0) {undoButton = <button className='undo-button' onClick={undoLastTurn}>UNDO</button>}
+    
+
     // Display Redo button
     let redoButton;
     if (currentMove < history.length - 1) {redoButton = <button className='redo-button' onClick={redoLastTurn}>REDO</button>}
@@ -133,14 +135,12 @@ export default function Game(){
             
             <div className='controls-bar'>
                 <div className='single-move-controls'>
-                    <>{undoButton}</>
-                    <>{redoButton}</>
+                    <div>{undoButton}</div>
+                    <div>{redoButton}</div>
                 </div>
-                <div className='game-controls'>
-                    <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
-                    <>{replayButton}</>
-                </div>
+                <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
             </div>
+                <>{replayButton}</>
 
         </div>
     );
