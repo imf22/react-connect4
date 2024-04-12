@@ -121,8 +121,8 @@ export default function Game(){
     
 
     // Display Redo button
-    let redoButton;
-    if (currentMove < history.length - 1) {redoButton = <button className='redo-button' onClick={redoLastTurn}>REDO</button>}
+    let redoButton = <div className='hidden-button'></div>;
+    if (!winner && currentMove < history.length - 1) {redoButton = <button className='redo-button' onClick={redoLastTurn}>REDO</button>}
     
 
 
