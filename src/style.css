@@ -44,6 +44,7 @@ body {
     background-color: var(--secondary-color);
 }
 .game {
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -51,7 +52,6 @@ body {
 }
 
 .board {
-    margin-top: 3rem;
     width: max-content;
 
     border: 1rem solid var(--primary-color);
@@ -142,7 +142,7 @@ body {
 
     z-index: 1000;
 }
-.token-red, .token-black{
+.token-p1, .token-p2{
     font-family: "Kode Mono";
     margin: -4.4rem -1rem ;
     padding: 0 ;
@@ -151,19 +151,19 @@ body {
 
 }
 
-.token-red {
+.token-p1, #tag-p1 {
     color: var(--p1-color);
     text-shadow: 0 0 0.75rem var(--p1-color);
     -webkit-text-stroke-color: var(--p1-color);
 }
 
-.token-black {
+.token-p2, #tag-p2 {
     color: var(--p2-color);
     text-shadow: 0 0 0.75rem var(--p2-color);
     -webkit-text-stroke-color: var(--p2-color);
 }
 
-.controls-bar{
+.controls-bar, .player-tags-bar{
     display: flex;
     flex-direction: row;
     justify-content:space-between;

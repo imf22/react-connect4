@@ -15,13 +15,13 @@ const replayUpdateInterval = 500;       // Time in between each move replay. In 
 
 function RedToken(){
     return (
-        <div className='token-red'>●</div>
+        <div className='token-p1'>●</div>
     )
 }
 
 function BlackToken(){
     return (
-        <div className='token-black'>●</div>
+        <div className='token-p2'>●</div>
     )
 }
 
@@ -128,6 +128,10 @@ export default function Game(){
 
     return(
         <div className='game'>
+            <div className='player-tags-bar'>
+                <p id='tag-p1'>P1</p>
+                <p id='tag-p2'>P2</p>
+            </div>
             <div className='board'>
                 <Board winner={winner} isRNext={isRNext} squares={currentSquares} onPlay={handlePlay}/>
             </div>
