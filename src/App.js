@@ -108,21 +108,21 @@ export default function Game(){
     } else if (calculateIfFull(currentSquares)){
         statusMsg = 'Draw!'
     } else {
-        statusMsg = isRNext ? "Red's Turn" : "Blue's Turn";
+        statusMsg = isRNext ? "P1 Turn" : "P2 Turn";
     }
 
     // Display Replay button
     let replayButton;
-    if (winner) {replayButton = <button className='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
+    if (winner) {replayButton = <button className='controls-button' id='replay-button' onClick={replayGame}>WATCH GAME REPLAY </button>}
 
     // Display Undo button
-    let undoButton = <div className='hidden-button'></div>;
-    if (!winner && currentMove > 0) {undoButton = <button className='undo-button' onClick={undoLastTurn}>UNDO</button>}
+    let undoButton = <button className='hidden-button'>UNDO</button>;
+    if (!winner && currentMove > 0) {undoButton = <button className='controls-button' onClick={undoLastTurn}>UNDO</button>}
     
 
     // Display Redo button
-    let redoButton = <div className='hidden-button'></div>;
-    if (!winner && currentMove < history.length - 1) {redoButton = <button className='redo-button' onClick={redoLastTurn}>REDO</button>}
+    let redoButton = <button className='hidden-button'>REDO</button>;
+    if (!winner && currentMove < history.length - 1) {redoButton = <button className='controls-button' onClick={redoLastTurn}>REDO</button>}
     
 
 
@@ -138,7 +138,7 @@ export default function Game(){
                     <div>{undoButton}</div>
                     <div>{redoButton}</div>
                 </div>
-                <button className='restart-button' onClick={restartGame}>RESTART GAME</button>
+                <button id='restart-button' className='controls-button' onClick={restartGame}>RESTART GAME</button>
             </div>
                 <>{replayButton}</>
 
@@ -260,7 +260,7 @@ function calculateWinner(c, linearIndex, squares){
 
             // Check if first square contains a token then if rest of tokens match
             if (p1 && p1 === p2 && p1 === p3 && p1 === p4) {
-                return p1 === 'R'? 'Red' : 'Blue';    // There is a winner
+                return p1 === 'R'? 'P1' : 'P2';    // There is a winner
             }
         };
     }
